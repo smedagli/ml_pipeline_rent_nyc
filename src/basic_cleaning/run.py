@@ -31,12 +31,13 @@ def go(input_args):
     logging.info(f"Uploading {filename}")
 
 
-def upload_to_wandb(wandb_run, args, filename: str = 'clean_sample.csv') -> None:
+def upload_to_wandb(wandb_run, input_args, filename: str = 'clean_sample.csv') -> None:
     """
     TODO:
         - docstring
     """
-    artifact = wandb.Artifact(args.output_artifact, type=args.output_type, description=args.output_description)
+    artifact = wandb.Artifact(input_args.output_artifact, type=input_args.output_type,
+                              description=input_args.output_description)
     artifact.add_file(filename)
     wandb_run.log_artifact(artifact)
 
@@ -50,6 +51,7 @@ def parse_args():
     parser.add_argument("--min_price", type=float, help="The minumum price to consider", required=True)
     parser.add_argument("--max_price", type=float, help="The maximum price to consider", required=True)
     return parser.parse_args()
+
 
 if __name__ == "__main__":
     args = parse_args()
