@@ -6,6 +6,7 @@ import argparse
 import logging
 import os
 import shutil
+import datetime
 import matplotlib.pyplot as plt
 
 import mlflow
@@ -113,18 +114,12 @@ def go(args):
     fig_feat_imp = plot_feature_importance(sk_pipe, processed_features)
 
     ######################################
-    # Here we save r_squared under the "r2" key
     run.summary['r2'] = r_squared
-    # Now log the variable "mae" under the key "mae".
-    # YOUR CODE HERE
-    ######################################
+    run.summary['mae'] = mae
 
-    # Upload to W&B the feture importance visualization
-    run.log(
-        {
-          "feature_importance": wandb.Image(fig_feat_imp),
-        }
-    )
+    run.log({'mae': mae, 'r2': r_squared, 'time': datetime.datetime.now()})
+    # Upload to W&B the feature importance visualization
+    run.log({"feature_importance": wandb.Image(fig_feat_imp)})
 
 
 def plot_feature_importance(pipe, feat_names):
