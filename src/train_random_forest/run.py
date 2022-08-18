@@ -6,7 +6,6 @@ import argparse
 import logging
 import os
 import shutil
-import datetime
 import matplotlib.pyplot as plt
 
 import mlflow
@@ -117,7 +116,7 @@ def go(input_args):
     run.summary['r2'] = r_squared
     run.summary['mae'] = mae
 
-    run.log({'mae': mae, 'r2': r_squared, 'time': datetime.datetime.now()})
+    run.log({'mae': mae, 'r2': r_squared})
     # Upload to W&B the feature importance visualization
     run.log({"feature_importance": wandb.Image(fig_feat_imp)})
 
