@@ -8,7 +8,8 @@ import os
 
 import wandb
 
-# from wandb_utils.log_artifact import log_artifact
+logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
+logger = logging.getLogger()
 
 
 def log_artifact(artifact_name, artifact_type, artifact_description, filename, wandb_run):
@@ -35,9 +36,6 @@ def log_artifact(artifact_name, artifact_type, artifact_description, filename, w
     # version below. This will wait until the artifact is loaded into W&B and a
     # version is assigned
     artifact.wait()
-
-logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
-logger = logging.getLogger()
 
 
 def go(args):
