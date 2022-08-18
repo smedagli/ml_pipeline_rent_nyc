@@ -41,7 +41,7 @@ def go(config: DictConfig):
                              "artifact_type": "raw_data",
                              "artifact_description": "Raw file as downloaded"
                              }
-            _ = mlflow.run(f"{config['main']['components_repository']}/get_data",
+            _ = mlflow.run(f"{config['main']['components_repository']}/get_data", version='main',
                            entry_point="main", parameters=args_download)
 
         if "basic_cleaning" in active_steps:
