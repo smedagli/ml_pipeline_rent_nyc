@@ -27,46 +27,30 @@ def go(args):
     df = pd.read_csv(artifact_local_path)
 
     logger.info("Splitting trainval and test")
-    trainval, test = train_test_split(
-        df,
-        test_size=args.test_size,
-        random_state=args.random_seed,
-        stratify=df[args.stratify_by] if args.stratify_by != 'none' else None,
-    )
+    trainval, test = train_test_split(df, test_size=args.test_size, random_state=args.random_seed,
+                                      stratify=df[args.stratify_by] if args.stratify_by != 'none' else None,
+                                      )
 
     # Save to output files
     for df, k in zip([trainval, test], ['trainval', 'test']):
         logger.info(f"Uploading {k}_data.csv dataset")
         with tempfile.NamedTemporaryFile("w") as fp:
-
             df.to_csv(fp.name, index=False)
+            log_artifact(f"{k}_data.csv", f"{k}_data", f"{k} split of dataset", fp.name, run)
 
-            log_artifact(
-                f"{k}_data.csv",
-                f"{k}_data",
-                f"{k} split of dataset",
-                fp.name,
-                run,
-            )
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="Split test and remainder")
+    parser.add_argument("input", type=str, help="Input artifact to split")
+    parser.add_argument("test_size", type=float,
+                        help="Size of the test split. Fraction of the dataset, or number of items")
+    parser.add_argument("--random_seed", type=int, help="Seed for random number generator", default=42,
+                        required=False)
+    parser.add_argument("--stratify_by", type=str, help="Column to use for stratification", default='none',
+                        required=False)
+    return parser.parse_args()
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Split test and remainder")
-
-    parser.add_argument("input", type=str, help="Input artifact to split")
-
-    parser.add_argument(
-        "test_size", type=float, help="Size of the test split. Fraction of the dataset, or number of items"
-    )
-
-    parser.add_argument(
-        "--random_seed", type=int, help="Seed for random number generator", default=42, required=False
-    )
-
-    parser.add_argument(
-        "--stratify_by", type=str, help="Column to use for stratification", default='none', required=False
-    )
-
-    args = parser.parse_args()
-
+    args = parse_args()
     go(args)
