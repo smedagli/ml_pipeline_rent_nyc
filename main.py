@@ -46,16 +46,23 @@ def go(config: DictConfig):
                            entry_point="main", parameters=args_download)
 
         if "basic_cleaning" in active_steps:
-            ##################
-            # Implement here #
-            ##################
-            pass
+            to_run = os.path.join(hydra.utils.get_original_cwd(), 'src', 'basic_cleaning')
+            output_artifact = "clean_sample.csv"
+
+            args_basic_cleaning = {'input_artifact': f"{downloaded_filename}:latest",
+                                   'output_artifact': output_artifact,
+                                   'output_type': 'clean_sample',
+                                   'output_description': 'Data with outliers and null values removed',
+                                   'min_price': config['etl']['min_price'],
+                                   'max_price': config['etl']['max_price'],
+                                   }
+
+            _ = mlflow.run(to_run, entry_point='main', parameters=args_basic_cleaning)
 
         if "data_check" in active_steps:
             ##################
             # Implement here #
             ##################
-            pass
 
         if "data_split" in active_steps:
             ##################
