@@ -7,7 +7,7 @@ from omegaconf import DictConfig
 
 _STEPS = ["download",
           "basic_cleaning",
-          # "data_check",
+          "data_check",
           "data_split",
           "train_random_forest",
           ]
