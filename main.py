@@ -31,17 +31,18 @@ def go(config: DictConfig):
     steps_par = config['main']['steps']
     active_steps = steps_par.split(",") if steps_par != "all" else _STEPS
 
-    downlaoded_filename = 'sample.csv'
+    downloaded_filename = 'sample.csv'
     # Move to a temporary directory
     with tempfile.TemporaryDirectory() as tmp_dir:
         if "download" in active_steps:
             # Download file and load in W&B
+            to_run = f"{config['main']['components_repository']}/get_data"
             args_download = {"sample": config["etl"]["sample"],
-                             "artifact_name": downlaoded_filename,
+                             "artifact_name": downloaded_filename,
                              "artifact_type": "raw_data",
                              "artifact_description": "Raw file as downloaded"
                              }
-            _ = mlflow.run(f"{config['main']['components_repository']}/get_data", version='main',
+            _ = mlflow.run(to_run, version='main',
                            entry_point="main", parameters=args_download)
 
         if "basic_cleaning" in active_steps:
