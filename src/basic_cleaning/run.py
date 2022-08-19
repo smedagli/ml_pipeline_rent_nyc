@@ -21,6 +21,12 @@ def go(input_args):
     # particular version of the artifact
     artifact_local_path = run.use_artifact(args.input_artifact).file()
     df = pd.read_csv(artifact_local_path)
+
+    # filter by latitude/longitude
+    idx = df['longitude'].between(-74.25, -73.50) & df['latitude'].between(40.5, 41.2)
+    df = df[idx].copy()
+
+    # filter by price
     idx_to_keep = df['price'].between(input_args.min_price, input_args.max_price)
     df_to_keep = df[idx_to_keep].copy()
     df_to_keep['last_review'] = pd.to_datetime(df_to_keep['last_review'])
