@@ -57,20 +57,21 @@ In this project you will build such a pipeline.
 ## Preliminary steps
 ### Fork the Starter kit
 Go to [https://github.com/smedagli/build-ml-pipeline-for-short-term-rental-prices.git](https://github.com/smedagli/build-ml-pipeline-for-short-term-rental-prices.git)
-and click on `Fork` in the upper right corner. This will create a fork in your Github account, i.e., a copy of the
-repository that is under your control. Now clone the repository locally so you can start working on it:
+and click on `Fork` in the upper right corner.
+This will create a fork in your Github account, i.e., a copy of the repository that is under your control.
+Now clone the repository locally, so you can start working on it:
 
 ```
-git clone https://github.com/[your github username]/build-ml-pipeline-for-short-term-rental-prices.git
+git clone https://github.com/[your github username]//ml_pipeline_rent_ny.git
 ```
 
 and go into the repository:
 
 ```
-cd build-ml-pipeline-for-short-term-rental-prices
+cd /ml_pipeline_rent_ny
 ```
-Commit and push to the repository often while you make progress towards the solution. Remember 
-to add meaningful commit messages.
+Commit and push to the repository often while you make progress towards the solution.
+Remember to add meaningful commit messages.
 
 ### Create environment
 Make sure to have conda installed and ready, then create a new environment using the ``environment.yml``
@@ -82,9 +83,9 @@ file provided in the root of the repository and activate it:
 ```
 
 ### Get API key for Weights and Biases
-Let's make sure we are logged in to Weights & Biases. Get your API key from W&B by going to 
-[https://wandb.ai/authorize](https://wandb.ai/authorize) and click on the + icon (copy to clipboard), 
-then paste your key into this command:
+Let's make sure we are logged in to Weights & Biases.
+Get your API key from W&B by going to [https://wandb.ai/authorize](https://wandb.ai/authorize) 
+and click on the + icon (copy to clipboard), then paste your key into this command:
 
 ```bash
 > wandb login [your API key]
@@ -97,10 +98,11 @@ wandb: Appending key for api.wandb.ai to your netrc file: /home/[your username]/
 
 ### Cookie cutter
 In order to make your job a little easier, you are provided a cookie cutter template that you can use to create 
-stubs for new pipeline components. It is not required that you use this, but it might save you from a bit of 
-boilerplate code. Just run the cookiecutter and enter the required information, and a new component 
-will be created including the `conda.yml` file, the `MLproject` file as well as the script. You can then modify these
-as needed, instead of starting from scratch.
+stubs for new pipeline components.
+It is not required that you use this, but it might save you from a bit of boilerplate code.
+Just run the cookiecutter and enter the required information, 
+and a new component will be created including the `conda.yml` file, the `MLproject` file as well as the script.
+You can then modify these as needed, instead of starting from scratch.
 For example:
 
 ```bash
@@ -134,18 +136,18 @@ The script ``run.py`` will receive the input parameters ``parameter1``, ``parame
 ### The configuration
 As usual, the parameters controlling the pipeline are defined in the ``config.yaml`` file defined in
 the root of the starter kit. We will use Hydra to manage this configuration file. 
-Open this file and get familiar with its content. Remember: this file is only read by the ``main.py`` script 
-(i.e., the pipeline) and its content is
-available with the ``go`` function in ``main.py`` as the ``config`` dictionary. For example,
-the name of the project is contained in the ``project_name`` key under the ``main`` section in
+Open this file and get familiar with its content.
+Remember: this file is only read by the ``main.py`` script (i.e., the pipeline) and its content is 
+available with the ``go`` function in ``main.py`` as the ``config`` dictionary.
+For example, the name of the project is contained in the ``project_name`` key under the ``main`` section in
 the configuration file. It can be accessed from the ``go`` function as 
 ``config["main"]["project_name"]``.
 
-NOTE: do NOT hardcode any parameter when writing the pipeline. All the parameters should be 
-accessed from the configuration file.
+NOTE: do NOT hardcode any parameter when writing the pipeline.
+All the parameters should be accessed from the configuration file.
 
 ### Running the entire pipeline or just a selection of steps
-In order to run the pipeline when you are developing, you need to be in the root of the starter kit, 
+In order to run the pipeline when you are developing, you need to be in the root of the starter kit,
 then you can execute as usual:
 
 ```bash
@@ -153,9 +155,10 @@ then you can execute as usual:
 ```
 This will run the entire pipeline.
 
-When developing it is useful to be able to run one step at the time. Say you want to run only
-the ``download`` step. The `main.py` is written so that the steps are defined at the top of the file, in the 
-``_steps`` list, and can be selected by using the `steps` parameter on the command line:
+When developing it is useful to be able to run one step at the time.
+Say you want to run only the ``download`` step.
+The `main.py` is written so that the steps are defined at the top of the file,
+in the ``_steps`` list, and can be selected by using the `steps` parameter on the command line:
 
 ```bash
 > mlflow run . -P steps=download
@@ -165,7 +168,8 @@ If you want to run the ``download`` and the ``basic_cleaning`` steps, you can si
 > mlflow run . -P steps=download,basic_cleaning
 ```
 You can override any other parameter in the configuration file using the Hydra syntax, by
-providing it as a ``hydra_options`` parameter. For example, say that we want to set the parameter
+providing it as a ``hydra_options`` parameter.
+For example, say that we want to set the parameter
 modeling -> random_forest -> n_estimators to 10 and etl->min_price to 50:
 
 ```bash
@@ -175,8 +179,8 @@ modeling -> random_forest -> n_estimators to 10 and etl->min_price to 50:
 ```
 
 ### Pre-existing components
-In order to simulate a real-world situation, we are providing you with some pre-implemented
-re-usable components. While you have a copy in your fork, you will be using them from the original
+In order to simulate a real-world situation, we are providing you with some pre-implemented re-usable components.
+While you have a copy in your fork, you will be using them from the original
 repository by accessing them through their GitHub link, like:
 
 ```python
@@ -192,11 +196,11 @@ _ = mlflow.run(
             )
 ```
 where `config['main']['components_repository']` is set to 
-[https://github.com/smedagli/build-ml-pipeline-for-short-term-rental-prices#components](https://github.com/smedagli/build-ml-pipeline-for-short-term-rental-prices/tree/main/components).
+[https://github.com/smedagli//ml_pipeline_rent_ny#components](https://github.com/smedagli//ml_pipeline_rent_ny/tree/main/components).
 You can see the parameters that they require by looking into their `MLproject` file:
 
-- `get_data`: downloads the data. [MLproject](https://github.com/smedagli/build-ml-pipeline-for-short-term-rental-prices/blob/main/components/get_data/MLproject)
-- `train_val_test_split`: segrgate the data (splits the data) [MLproject](https://github.com/smedagli/build-ml-pipeline-for-short-term-rental-prices/blob/main/components/train_val_test_split/MLproject)
+- `get_data`: downloads the data. [MLproject](https://github.com/smedagli//ml_pipeline_rent_ny/blob/main/components/get_data/MLproject)
+- `train_val_test_split`: segrgate the data (splits the data) [MLproject](https://github.com/smedagli//ml_pipeline_rent_ny/blob/main/components/train_val_test_split/MLproject)
 
 ## In case of errors
 When you make an error writing your `conda.yml` file, you might end up with an environment for the pipeline or one
@@ -459,7 +463,7 @@ Add it to the pipeline then run the pipeline. As usual, use the configuration fo
 **_HINT_**: The path to the step can
 be expressed as ``mlflow.run(f"{config['main']['components_repository']}/train_val_test_split", ...)``.
 
-You can see the parameters accepted by this step [here](https://github.com/smedagli/build-ml-pipeline-for-short-term-rental-prices/blob/main/components/train_val_test_split/MLproject)
+You can see the parameters accepted by this step [here](https://github.com/smedagli//ml_pipeline_rent_ny/blob/main/components/train_val_test_split/MLproject)
 
 After you execute, you will see something like:
 
@@ -526,7 +530,7 @@ Go to the artifact section of the selected job, and select the
 ### Test
 Use the provided step ``test_regression_model`` to test your production model against the
 test set. Implement the call to this component in the `main.py` file. As usual you can see the parameters in the
-corresponding [MLproject](https://github.com/smedagli/build-ml-pipeline-for-short-term-rental-prices/blob/main/components/test_regression_model/MLproject) 
+corresponding [MLproject](https://github.com/smedagli//ml_pipeline_rent_ny/blob/main/components/test_regression_model/MLproject) 
 file. Use the artifact `random_forest_export:prod` for the parameter `mlflow_model` and the test artifact
 `test_data.csv:latest` as `test_artifact`.
 
@@ -562,7 +566,7 @@ train the model on a new sample of data that our company received (``sample2.csv
 
 (be ready for a surprise, keep reading even if the command fails)
 ```bash
-> mlflow run https://github.com/[your github username]/build-ml-pipeline-for-short-term-rental-prices.git \
+> mlflow run https://github.com/[your github username]//ml_pipeline_rent_ny.git \
              -v [the version you want to use, like 1.0.0] \
              -P hydra_options="etl.sample='sample2.csv'"
 ```
